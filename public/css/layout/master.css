@@ -338,3 +338,7 @@ span.round-tab:hover {
 #title-warning {
   color: orange;
 }
+
+.image_edit {
+  margin-top: 0 !important;
+}

@@ -220,6 +220,7 @@ return [
         'off' => 'TẮT',
         'link_exists' => 'Đường dẫn này đã tồn tại trong hệ thống, vui lòng thử lại!',
         'link_valid' => 'Đường dẫn hợp lệ, bạn có thể dùng đường dẫn này',
+        'confirm_delete_option' => 'Bạn có chắc chắc muốn xóa option này không. Nó sẽ xóa tất cả các vote của option?',
     ],
     'mail' => [
         'label' => [

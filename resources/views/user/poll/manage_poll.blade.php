@@ -9,7 +9,7 @@
         data-link="{{ url('link') }}">
     </div>
     <div class="row">
-        <div id="manager_poll_wizard" class="col-md-6 col-md-offset-3 well wrap-poll">
+        <div id="manager_poll_wizard" class="col-md-4 col-md-offset-4 well wrap-poll">
             <div class="navbar panel">
                 <div class="navbar-inner">
                     <div class="col-md-10 col-md-offset-1 col-lg-12 panel-heading">

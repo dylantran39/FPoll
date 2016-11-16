@@ -48,11 +48,11 @@ return [
         'register_active_mail' => 'Bạn đã đăng ký thành công, hãy kích vào đường dẫn sau để kích hoạt tài khoản.',
         'edit_poll' => [
             'head' => 'Bầu chọn',
-            'summary' => 'Poll được thay đổi bởi admin!',
+            'summary' => 'Poll của bạn đã được thay đổi.',
             'thead' => [
-                'STT' => 'SỐ THỨ TỰ.',
+                'STT' => 'SỐ THỨ TỰ',
                 'info' => 'THÔNG TIN',
-                'old_data' => 'DỮ LIỆU CỦ',
+                'old_data' => 'DỮ LIỆU CŨ',
                 'new_data' => 'DỮ LIỆU MỚI',
                 'date' => 'NGÀY',
             ],

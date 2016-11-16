@@ -134,5 +134,5 @@ Route::resource('status', 'StatusController', ['only' => [
 ]]);
 
 Route::get('test-email', function () {
-    return view('layouts.poll_mail');
+    return view('layouts.mail_edit_option');
 });

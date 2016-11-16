@@ -219,6 +219,7 @@ return [
         'on' => 'ON',
         'off' => 'OFF',
         'email_exist_database' => '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Email exists in database, you should be login to create poll.',
+        'confirm_delete_option' => 'Are you sure you want to delete this option. It\'s will remove all voting of this?',
     ],
     'mail' => [
         'label' => [

@@ -598,7 +598,6 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
     public function editInfor($input, $id)
     {
         $poll = Poll::with('user')->find($id);
-
         //data changed
         $data = [];
         $old = [];
@@ -692,10 +691,12 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
     public function editPollOption($input, $id)
     {
         $poll = Poll::with('options')->find($id);
+        $pollId = $id;
         $now = Carbon::now();
         $options = [];
 
         try {
+            $oldOptions = $poll->options;
             DB::beginTransaction();
 
             /*
@@ -866,6 +867,16 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             }
 
             DB::commit();
+            $newPoll = Poll::with('options', 'user')->findOrFail($pollId);
+            $newOptions = $newPoll->options;
+            $creatorName = $newPoll->user->name;
+            $creatorMail = $newPoll->user->email;
+
+            //send mail to creator
+            Mail::queue(config('settings.view.mail_edit_option'), compact('oldOptions', 'newOptions', 'now', 'creatorName'),
+                function ($message) use ($creatorMail) {
+                    $message->to($creatorMail)->subject(trans('label.mail.edit_poll.head'));
+            });
             $message = trans('polls.message.update_option_success');
         } catch (Exception $ex) {
             DB::rollBack();
@@ -921,7 +932,6 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                         ];
                     }
                 }
-
                 if ($newData) {
                     Setting::insert($newData);
                 }

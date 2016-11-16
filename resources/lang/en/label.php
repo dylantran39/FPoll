@@ -48,7 +48,7 @@ return [
         'register_active_mail' => 'You register successfully. Please click on link to active account. Link here: ',
         'edit_poll' => [
             'head' => 'Voting - Change',
-            'summary' => 'Poll of you changed by admin!',
+            'summary' => 'Poll of you changed!',
             'thead' => [
                 'STT' => 'NO.',
                 'info' => 'INFORMATION',
@@ -73,6 +73,12 @@ return [
         ],
         'participant_vote' => [
 
+        ],
+        'edit_option' => [
+            'old_option' => 'OLD OPTION',
+            'new_option' => 'NEW OPTION',
+            'thank' => 'Thank you because you have used website our',
+            'title' => 'Change option',
         ],
     ],
     'paginations' => 'Showing :start to :finish of :numberOfRecords entry|Showing :start to :finish of :numberOfRecords entries',
