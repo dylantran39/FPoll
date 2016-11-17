@@ -923,7 +923,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                         $value = $input['value']['password'];
                     }
 
-                    if (! array_key_exists($setting, $oldSetting)) {
+                    if (array_get($oldSetting, $setting)) {
                         $newData[] = [
                             'poll_id' => $id,
                             'key' => $setting,
@@ -932,6 +932,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                         ];
                     }
                 }
+
                 if ($newData) {
                     Setting::insert($newData);
                 }

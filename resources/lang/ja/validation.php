@@ -95,8 +95,6 @@ return [
     |
     */
     'info' => 'Time invalid',
-    'register' => 'This email has been registed, Please check email and login',
-    'check_email' => 'Email not exist, Please chose another email',
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',

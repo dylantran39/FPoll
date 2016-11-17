@@ -9,7 +9,7 @@
         data-link="{{ url('link') }}">
     </div>
     <div class="row">
-        <div id="manager_poll_wizard" class="col-md-4 col-md-offset-4 well wrap-poll">
+        <div id="manager_poll_wizard" class="col-md-10 col-md-offset-1 well wrap-poll">
             <div class="navbar panel">
                 <div class="navbar-inner">
                     <div class="col-md-10 col-md-offset-1 col-lg-12 panel-heading">
@@ -23,10 +23,18 @@
             </div>
             <div class="tab-content">
                 @include('layouts.message')
+                @if (Session::has('messages'))
+                    <div class="col-lg-12">
+                        <div class="col-lg-8 col-lg-offset-2 alert alert-success">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {!! Session::get('messages') !!}
+                        </div>
+                    </div>
+                @endif
                 <div class="tab-pane" id="info">
                     <h4>
                         {!! $poll->status !!}
-                        <a href="{{ url('/') . config('settings.email.link_vote') . $tokenLinkUser }}" target="_blank" style="float: right">Link vote
+                        <a href="{{ url('/') . config('settings.email.link_vote') . $tokenLinkUser }}" target="_blank" style="float: right">{{ trans('polls.link_vote') }}
                         </a>
                     </h4>
                     @include('layouts.poll_info')
@@ -39,16 +47,24 @@
                                     <ul class="nav nav-pills nav-stacked">
                                         <li class="active"><a data-toggle="tab" href="#home">
                                                 <i class="fa fa-calculator" aria-hidden="true"></i>
-                                            </a></li>
+                                            </a>
+                                        </li>
                                         <li><a data-toggle="tab" href="#menu1">
                                                 <i class="fa fa-table" aria-hidden="true"></i>
-                                            </a></li>
-                                        <li><a data-toggle="tab" href="#menu2">
-                                                <i class="fa fa-bar-chart" aria-hidden="true"></i>
-                                            </a></li>
-                                        <li><a data-toggle="tab" href="#menu3">
-                                                <i class="fa fa-pie-chart" aria-hidden="true"></i>
-                                            </a></li>
+                                            </a>
+                                        </li>
+                                        @if ($optionRateBarChart != 'null')
+                                            <li><a data-toggle="tab" href="#menu2">
+                                                    <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                                                </a>
+                                            </li>
+                                        @endif
+                                        @if ($optionRatePieChart)
+                                            <li><a data-toggle="tab" href="#menu3">
+                                                    <i class="fa fa-pie-chart" aria-hidden="true"></i>
+                                                </a>
+                                            </li>
+                                        @endif
                                     </ul>
                                 </div>
                             </div>
@@ -59,26 +75,32 @@
                                 <div class="tab-pane fade in active" id="home">
                                     <div class="panel panel-default animated fadeInRight">
                                         <div class="panel-heading">
-                                            STATISTIC
+                                            {{ trans('polls.statistic') }}
                                         </div>
                                         <div class="panel-body">
-                                            <h4>Tong luot binh chon <span class="badge">{{ $statistic['total'] }}</span></h4>
-                                            <h4>Thoi gian binh chon dau tien <span class="label label-default">{{ $statistic['firstTime'] }}</span></h4>
-                                            <h4>Thoi gian binh chon cuoi cung <span class="label label-default">{{ $statistic['lastTime'] }}</span></h4>
-                                            <h4>Option co luot vote cao nhat
-                                                @if (! empty($statistic['largestVote']['option']))
-                                                    <button type="button" class="btn btn-primary">{{ $statistic['largestVote']['option']->name }}
-                                                        <span class="badge">{{ $statistic['largestVote']['number'] }}</span>
-                                                    </button>
+                                            <h4>{{ trans('polls.total_vote') }}:
+                                                    {{ $statistic['total'] }}
+                                                </h4>
+                                            @if ($statistic['total'] > config('settings.default_value'))
+                                                <h4>{{ trans('polls.vote_first_time') }}:{{ $statistic['firstTime'] }}</h4>
+                                                <h4>{{ trans('polls.vote_last_time') }}:{{ $statistic['lastTime'] }}</h4>
+                                                @if ($statistic['largestVote']['number'] > 0 && $statistic['largestVote']['option'])
+                                                    <h4>{{ trans('polls.option_highest_vote') }}:
+                                                        @if (! empty($statistic['largestVote']['option']))
+                                                            {{ $statistic['largestVote']['option']->name }}
+                                                            <span class="label label-default">{{ $statistic['largestVote']['number'] }}</span>
+                                                        @endif
+                                                    </h4>
                                                 @endif
-                                            </h4>
-                                            <h4>Option co luot vote thap nhat
-                                                @if (! empty($statistic['leastVote']['option']))
-                                                    <button type="button" class="btn btn-primary">{{ $statistic['leastVote']['option']->name }}
-                                                        <span class="badge">{{ $statistic['leastVote']['number'] }}</span>
-                                                    </button>
+                                                @if ($statistic['leastVote']['number'] > 0 && $statistic['leastVote']['option'])
+                                                <h4>{{ trans('polls.option_lowest_vote') }}:
+                                                    @if (! empty($statistic['leastVote']['option']))
+                                                        {{ $statistic['leastVote']['option']->name }}
+                                                        <span class="label label-default">{{ $statistic['leastVote']['number'] }}</span>
+                                                    @endif
+                                                </h4>
                                                 @endif
-                                            </h4>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -98,7 +120,7 @@
                                                         <th>{{ trans('polls.label.option') }}</th>
                                                         <th>{{ trans('polls.number_vote') }}</th>
                                                         <th>{{ trans('polls.date_last_vote') }}</th>
-                                                        <th>{{ trans('polls.poll_details') }}</th>
+                                                        <!-- <th>{{ trans('polls.poll_details') }}</th> -->
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -111,11 +133,11 @@
                                                             </td>
                                                             <td><span class="badge">{{ $data['numberOfVote'] }}</span></td>
                                                             <td>{{ $data['lastVoteDate'] }}</td>
-                                                            <td>
+                                                           <!--  <td>
                                                                 <button type="button" class="btn btn-primary btn-xs">
                                                                     <i class="fa fa-asterisk" aria-hidden="true"></i>
                                                                 </button>
-                                                            </td>
+                                                            </td> -->
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
@@ -209,7 +231,7 @@
                                             BAR CHART
                                         </div>
                                         <div class="panel-body">
-                                            @if (collect($optionRateBarChart)->count())
+                                            @if ($optionRateBarChart)
                                                 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
                                                 <script type="text/javascript">
                                                     google.load('visualization', '1', {'packages': ['columnchart']});
@@ -237,7 +259,7 @@
                                         </div>
                                         <div class="panel-body">
                                             <!-- pie chart -->
-                                            @if (collect($optionRateBarChart)->count())
+                                            @if ($optionRateBarChart)
                                                 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                                                 <script type="text/javascript">
                                                     google.charts.load('current', {'packages':['corechart']});
@@ -268,11 +290,10 @@
                 <div class="tab-pane" id="activity">
                     <div class="row">
                         <div class="col-lg-6">
-                            <label id="label_link_admin">{{ url('/') . config('settings.email.link_vote') . $tokenLinkAdmin  }}</label>
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="basic-addon3">administrator</span>
-                                    <input type="text" name="administer_link" class="form-control token-admin" value="{{ $tokenLinkAdmin }}" id="link_admin" onkeyup="changeLinkAdmin()">
+                                    <input type="text" name="administer_link" class="form-control token-admin" value="{{ $tokenLinkAdmin }}" id="link_admin">
                                     <span class="input-group-btn" data-token-link-admin="{{ $tokenLinkAdmin }}">
                                         {{ Form::button('<i class="fa fa-check" aria-hidden="true"></i>', ['class' => 'btn btn-success edit-link-admin']) }}
                                     </span>
@@ -286,15 +307,20 @@
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <label id="label_link_user">{{ url('/') . config('settings.email.link_vote') . $tokenLinkUser  }}</label>
                             <div class="input-group">
                                 <span class="input-group-addon" id="basic-addon3">vote</span>
-                                <input type="text" name="participation_link" class="form-control token-user" value="{{ $tokenLinkUser }}" id="link_user"onkeyup="changeLinkUser()">
+                                <input type="text" name="participation_link" class="form-control token-user" value="{{ $tokenLinkUser }}" id="link_user">
                                 <span class="input-group-btn" data-token-link-user="{{ $tokenLinkUser }}">
                                     <button class="btn btn-success edit-link-user" type="button">
                                         <i class="fa fa-check" aria-hidden="true"></i>
                                     </button>
                                 </span>
+                            </div>
+                            <div class="form-group">
+                                <div class="error_link_user"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="label label-info message-link-user"></label>
                             </div>
                         </div>
                     </div>
@@ -315,12 +341,11 @@
                                         <span class="fa fa-pencil"></span> {{ trans('polls.tooltip.edit') }}
                                     </a></p>
                             @endif
-                            <p>
-                                <a href="{{ route('duplicate.show', $poll->id) }}" class="btn btn-administration">
-                                    <span class="fa fa-files-o"></span> {{ trans('polls.tooltip.duplicate') }}
+                            @if ($poll->isClosed())
+                                <a class="btn btn-administration" href="{{ URL::action('User\PollController@edit', ['id' => $poll->id]) }}">
+                                    <i class="fa fa-external-link" aria-hidden="true"></i> {{ trans('polls.reopen_poll') }}
                                 </a>
-                            </p>
-
+                            @endif
                             @if (! $poll->isClosed())
                                 <p>
                                     {{ Form::open(['route' => ['poll.destroy', $poll->id], 'method' => 'delete']) }}
@@ -334,7 +359,6 @@
                                     {{ Form::close() }}
                                 </p>
                             @endif
-
                             @if ($poll->countParticipants())
                                 <p>
                                     {!! Form::open(['route' => ['delete_all_participant', 'poll_id' => $poll->id]]) !!}

@@ -145,6 +145,9 @@ class LinkController extends Controller
                     $optionRateBarChart[] = [str_limit($option->name, 15), $countOption];
                 }
             }
+        } else {
+            $optionRatePieChart = null;
+            $optionRateBarChart = null;
         }
 
         $optionRateBarChart = json_encode($optionRateBarChart);
@@ -331,6 +334,9 @@ class LinkController extends Controller
                         $optionRateBarChart[] = [str_limit($option->name, 15), $countOption];
                     }
                 }
+            } else {
+                $optionRatePieChart = null;
+                $optionRateBarChart = null;
             }
 
             $optionRateBarChart = json_encode($optionRateBarChart);

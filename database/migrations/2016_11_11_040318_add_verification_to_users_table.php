@@ -14,7 +14,7 @@ class AddVerificationToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('token_verification')->default(null);
+            $table->string('token_verification')->nullable();
             $table->boolean('is_active')->default(false);
         });
     }

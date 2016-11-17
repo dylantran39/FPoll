@@ -95,7 +95,6 @@ function readURL(input, idShow) {
 //remove option
 function removeOpion(idOption, action) {
     if (typeof pollData !== "undefined" && typeof action !== "undefined") {
-        console.log(pollData.message.confirm_delete_option);
         if (confirmDelete(pollData.message.confirm_delete_option)) {
             $("#" + idOption).remove();
         }

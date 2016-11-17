@@ -17,8 +17,6 @@
 
     {!! Html::style('css/layout/master.css') !!}
 
-{{--    {!! Html::style('css/layout/mail_notification.css') !!}--}}
-
     <!-- Bootstrap CSS -->
     {!! Html::style('bower/bootstrap/dist/css/bootstrap.min.css') !!}
 
@@ -69,8 +67,8 @@
 
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar navbar-inverse navbar-app navbar-fixed-top">
+    <!-- <div id="app"> -->
+        <nav class="navbar navbar-inverse navbar-app">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu">
@@ -134,12 +132,47 @@
                 </div>
             </div>
         </nav>
-        <div class="content">
+        <div class="container">
             @yield('content')
             <script src="//code.jquery.com/jquery.js"></script>
             @include('flashy::message')
         </div>
-    </div>
+        <div class="footer">
+            <div class="row">
+                <div class="col-lg-4">
+                    <p><b class="char-app">P</b>oll - <b class="char-app">V</b>ote</p>
+                    <p>{{ trans('label.footer.copyright') }}</p>
+                </div>
+                <div class="col-lg-4">
+                    <div class="row">
+                        <p><i class="fa fa-map-marker" aria-hidden="true"></i> {{ trans('label.footer.location') }}</p>
+                    </div>
+                    <div class="row">
+                        <p><i class="fa fa-phone" aria-hidden="true"></i> {{ trans('label.footer.email') }}</p>
+                    </div>
+                    <div class="row">
+                        <p><i class="fa fa-envelope" aria-hidden="true"></i> {{ trans('label.footer.email') }}</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <p>{{ trans('label.footer.about') }}</p>
+                    <p style="word-wrap: break-word">{{ trans('label.footer.description_website') }}</p>
+                    <button class="btn btn-primary">
+                        <span><i class="fa fa-facebook" aria-hidden="true"></i></span>
+                    </button>
+                    <button class="btn btn-success">
+                        <span><i class="fa fa-twitter" aria-hidden="true"></i></span>
+                    </button>
+                    <button class="btn btn-warning">
+                        <span><i class="fa fa-github" aria-hidden="true"></i></span>
+                    </button>
+                    <button class="btn btn-default">
+                        <span><i class="fa fa-linkedin" aria-hidden="true"></i></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    <!-- </div> -->
 
     <!-- jQuery -->
     {!! Html::script('bower/jquery/dist/jquery.min.js') !!}

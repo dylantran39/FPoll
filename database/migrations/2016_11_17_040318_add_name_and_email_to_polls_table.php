@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddIsRegisterToUsersTable extends Migration
+class AddNameAndEmailToPollsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AddIsRegisterToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->boolean('is_register')->default(true);
+        Schema::table('polls', function (Blueprint $table) {
+            $table->string('name')->nullable();
+            $table->string('email')->nullable();
         });
     }
 
@@ -25,8 +26,8 @@ class AddIsRegisterToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function ($table) {
-            $table->dropColumn('is_register');
+        Schema::table('polls', function ($table) {
+            $table->dropColumn(['name', 'email']);
         });
     }
 }

@@ -14,7 +14,7 @@
         "maatwebsite/excel": "~2.0.0",
         "fzaninotto/faker": "~1.4",
         "mercuryseries/flashy": "^1.0",
-        "guzzlehttp/guzzle": "^6.1"
+        "guzzlehttp/guzzle": "~4.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

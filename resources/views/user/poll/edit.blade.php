@@ -10,7 +10,7 @@
          data-route-link="{{ route('link-poll.store') }}"
          data-token="{{ csrf_token() }}">
     </div>
-    <div id="edit_poll_wizard" class="col-lg-4 col-lg-offset-4 well wrap-poll">
+    <div id="edit_poll_wizard" class="col-lg-10 col-lg-offset-1 well wrap-poll">
         <div class="navbar panel">
             <div class="navbar-inner">
                 <div class="col-md-12 col-lg-8 col-lg-offset-2 panel-heading">

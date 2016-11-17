@@ -162,7 +162,7 @@
                 <!-- Footer -->
                 <div class="legal">
                     <div class="copyright">
-                         {{ trans('label.footer') }}
+                         {{ trans('label.footer.copyright') }}
                     </div>
                 </div>
                 <!-- #Footer -->

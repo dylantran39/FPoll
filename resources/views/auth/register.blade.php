@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-4 col-md-offset-4 animated fadeInDown register">
+        <div class="col-md-6 col-md-offset-3 animated fadeInDown register">
             <div class="panel panel-default">
                 <div class="panel-heading">{{ trans('label.register') }}</div>
                 <div class="panel-body">

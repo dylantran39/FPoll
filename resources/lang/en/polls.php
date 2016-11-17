@@ -340,4 +340,13 @@ return [
     'number_vote' => 'Number of vote',
     'email_voted' => 'This email voted, Please chose another email to vote',
     'check' => 'Check',
+    'statistic' => 'Statistic',
+    'total_vote' => 'Total vote',
+    'vote_first_time' => 'Vote first time',
+    'vote_last_time' => 'Vote last time',
+    'option_highest_vote' => 'Option with highest vote',
+    'option_lowest_vote' => 'Option with lowest vote',
+    'link_vote' => 'Link vote',
+    'message_required_email' => 'Please enter email to vote this poll',
+    'no_name' => 'No Name',
 ];

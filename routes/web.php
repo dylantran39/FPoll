@@ -30,8 +30,6 @@ Route::get('link/verification/{tokenRegister?}', 'LinkController@index');
 
 Route::get('/', 'PollController@create');
 
-Route::post('check-email', 'CheckEmailController@store');
-
 Route::get('/logout', function()
 {
     Auth::logout();

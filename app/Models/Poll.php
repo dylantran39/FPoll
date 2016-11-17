@@ -20,7 +20,9 @@ class Poll extends Model
         'status',
         'multiple',
         'location',
-        'date_close'
+        'date_close',
+        'name',
+        'email',
     ];
 
     public function user()
@@ -164,33 +166,4 @@ class Poll extends Model
             return "<label class='label label-danger'>" . trans('polls.label.poll_closed') . '</label>';
         }
     }
-
-    public function getListEmailVoted()
-    {
-        $listEmail = [];
-        try {
-            foreach ($this->options as $option) {
-                if ($option->votes->count()) {
-                    foreach ($option->votes as $vote) {
-                        if ($vote->user->email) {
-                            $listEmail[] = $vote->user->email;
-                        }
-                    }
-                }
-
-                if ($option->participantVotes->count()) {
-                    foreach ($option->participantVotes as $participantVote) {
-                        if ($participantVote->participant->email) {
-                            $listEmail[] = $participantVote->participant->email;
-                        }
-                    }
-                }
-            }
-        } catch(\Exception $ex) {
-            return [];
-        }
-
-        return $listEmail;
-    }
-
 }

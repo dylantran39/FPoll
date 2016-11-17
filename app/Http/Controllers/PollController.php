@@ -178,6 +178,6 @@ class PollController extends Controller
         $poll->status = false;
         $poll->save();
 
-        return redirect()->action('User\PollController@index');
+        return redirect()->to($poll->getAdminLink())->withMessages(trans('polls.close_poll_successfully'));;
     }
 }

@@ -19,7 +19,7 @@
                'role' => 'form',
            ])
         }}
-        <div id="duplicate_poll_wizard" class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 well wrap-poll">
+        <div id="duplicate_poll_wizard" class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 well wrap-poll">
             <div class="navbar panel">
                 <div class="navbar-inner">
                     <div class="col-md-12 col-lg-10 col-lg-offset-1 panel-heading">

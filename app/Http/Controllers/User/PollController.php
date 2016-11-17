@@ -34,7 +34,7 @@ class PollController extends Controller
             return view('user.poll.list_polls', compact('initiatedPolls', 'participatedPolls', 'closedPolls'));
         }
 
-        return view('home');
+        return redirect()->action('PollController@create');
     }
 
     public function edit($id)
@@ -129,6 +129,6 @@ class PollController extends Controller
         $poll->status = false;
         $poll->save();
 
-        return redirect()->action('User\PollController@index');
+        return redirect()->to($poll->getAdminLink())->withMessages(trans('polls.close_poll_successfully'));;
     }
 }

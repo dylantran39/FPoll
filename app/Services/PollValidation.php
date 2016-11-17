@@ -97,20 +97,6 @@ class PollValidator extends Validator
         return true;
     }
 
-    public function register($attribute, $value, $parameters, $validator)
-    {
-        return User::where('email', $value)->where('is_register', false)->count() == config('settings.default_value');
-    }
-
-    public function checkEmail($attribute, $value, $parameters, $validator)
-    {
-        $url = 'http://api.emailvalidator.co/?AccessKey=30918434.3c05.493e.adc9.4024b7527bce&EmailAddress=' . $value .'&VerificationLevel=4';
-        $json = file_get_contents($url);
-        $array = json_decode($json, true);
-
-        return $array['IsValid'];
-    }
-
     public function updateEmail($attribute, $value, $parameters, $validator)
     {
         if (! auth()->check()) {

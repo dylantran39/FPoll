@@ -94,9 +94,7 @@ return [
     | specify a specific custom language line for a given attribute rule.
     |
     */
-    'register' => 'Địa chỉ email này đã được đăng ký, Vui lòng kiểm tra mail và đăng nhập để sử dụng',
     'info' => 'Thời gian đóng poll phải lớn hơn thời gian hiện tại',
-    'check_email' => 'Địa chỉ email này không tồn tại, Vui lòng chọn một địa chỉ email khác',
     'update_email' => 'Địa chỉ email này đã tồn tại, Vui lòng lựa chọn email khác',
     'custom' => [
         'attribute-name' => [

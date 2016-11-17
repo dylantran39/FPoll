@@ -57,8 +57,9 @@ class VoteController extends Controller
             $ip = $remote;
         }
 
-        $inputs = $request->only('option', 'input', 'poll_id', 'isRequiredEmail');
-        $poll = $this->pollRepository->findPollById($inputs['poll_id']);
+        $inputs = $request->only('option', 'nameVote', 'emailVote', 'pollId', 'isRequiredEmail');
+        $poll = $this->pollRepository->findPollById($inputs['pollId']);
+        $isRequiredEmail = $inputs['isRequiredEmail'];
         $now = Carbon::now();
 
         //check time close poll
@@ -77,24 +78,14 @@ class VoteController extends Controller
 
             $isChanged = false;
 
-            if (! $inputs['isRequiredEmail']) {
-                if ($inputs['input'] != $currentUser->name) {
-                    $participantInformation['name'] = $inputs['input'];
-                    $isChanged = true;
-                }
-            } else {
-                if (in_array($inputs['input'], $poll->getListEmailVoted())) {
-                    return redirect()->to($poll->getUserLink())->with('message', trans('polls.email_voted'));
-                }
+            if ($inputs['nameVote'] != $currentUser->name || $inputs['emailVote'] != $currentUser->email) {
+                $participantInformation['name'] = $inputs['nameVote'];
+                $participantInformation['email'] = $inputs['emailVote'];
+                $isChanged = true;
+            }
 
-                if ($inputs['input'] != $currentUser->email) {
-                    if ($this->userRepository->checkEmailExist($inputs['input'])) {
-                        return redirect()->to($poll->getUserLink())->with('message', trans('polls.email_exist'));
-                    }
-
-                    $participantInformation['email'] = $inputs['input'];
-                    $isChanged = true;
-                }
+            if (! $inputs['nameVote'] && ! $inputs['emailVote']) {
+                $participantInformation['name'] = trans('polls.no_name');
             }
 
             if (! $isChanged) {
@@ -122,14 +113,31 @@ class VoteController extends Controller
                 DB::beginTransaction();
 
                 $activity = [
-                    'poll_id' => $inputs['poll_id'],
+                    'poll_id' => $inputs['pollId'],
                     'type' => config('settings.activity.participated'),
                     'user_id' => $currentUser->id,
                 ];
 
                 if ($isChanged) {
                     $this->participantVoteRepository->insert($participantVotes);
-                    $activity['name'] = $inputs['input'];
+
+                    if ($isRequiredEmail) {
+                        if ($inputs['nameVote']) {
+                            $activity['name'] = $inputs['nameVote'] . ' (' . $inputs['emailVote'] . ') ';
+                        } else {
+                            $activity['name'] = $inputs['emailVote'];
+                        }
+                    } else {
+                        if ($inputs['nameVote'] && $inputs['emailVote']) {
+                            $activity['name'] = $inputs['nameVote'] . ' (' . $inputs['emailVote'] . ') ';
+                        } elseif (! $inputs['nameVote'] && $inputs['emailVote']){
+                            $activity['name'] = $inputs['nameVote'];
+                        } elseif ($inputs['nameVote'] && ! $inputs['emailVote']){
+                            $activity['name'] = $inputs['emailVote'];
+                        } else {
+                            $activity['name'] = trans('polls.no_name');
+                        }
+                    }
                 } else {
                     $this->voteRepository->insert($votes);
                 }
@@ -145,19 +153,13 @@ class VoteController extends Controller
                 'ip_address' => $ip,
             ];
 
-            if ($inputs['isRequiredEmail']) {
-                if (in_array($inputs['input'], $poll->getListEmailVoted())) {
-                    return redirect()->to($poll->getUserLink())->with('message', trans('polls.email_voted'));
-                }
-
-                if ($this->userRepository->checkEmailExist($inputs['input'])) {
-                    return redirect()->to($poll->getUserLink())->with('message', trans('polls.email_exist'));
-                }
-
-                $participantInformation['email'] = $inputs['input'];
+            if (! $inputs['nameVote'] && ! $inputs['emailVote']) {
+                $participantInformation['name'] = trans('polls.no_name');
             } else {
-                $participantInformation['name'] = $inputs['input'];
+                $participantInformation['email'] = $inputs['emailVote'];
+                $participantInformation['name'] = $inputs['nameVote'];
             }
+
             $participant = $this->participantRepository->create($participantInformation);
             foreach ($inputs['option'] as $option) {
                 $participantVotes[] = [
@@ -171,10 +173,28 @@ class VoteController extends Controller
                 DB::beginTransaction();
                 $this->participantVoteRepository->insert($participantVotes);
                 $activity = [
-                    'poll_id' => $inputs['poll_id'],
+                    'poll_id' => $inputs['pollId'],
                     'type' => config('settings.activity.participated'),
-                    'name' => $inputs['input'],
                 ];
+
+                if ($isRequiredEmail) {
+                    if ($inputs['nameVote']) {
+                        $activity['name'] = $inputs['nameVote'] . ' (' . $inputs['emailVote'] . ') ';
+                    } else {
+                        $activity['name'] = $inputs['emailVote'];
+                    }
+                } else {
+                    if ($inputs['nameVote'] && $inputs['emailVote']) {
+                        $activity['name'] = $inputs['nameVote'] . ' (' . $inputs['emailVote'] . ') ';
+                    } elseif (! $inputs['nameVote'] && $inputs['emailVote']){
+                        $activity['name'] = $inputs['nameVote'];
+                    } elseif ($inputs['nameVote'] && ! $inputs['emailVote']){
+                        $activity['name'] = $inputs['emailVote'];
+                    } else {
+                        $activity['name'] = trans('polls.no_name');
+                    }
+                }
+
                 $this->activityRepository->create($activity);
                 DB::commit();
             } catch (Exception $e) {
@@ -210,7 +230,7 @@ class VoteController extends Controller
         $optionName = substr($optionName, 0, strlen($optionName) - 1);
         Mail::queue('layouts.vote_mail', [
             'optionName' => $optionName,
-            'title' => $inputs['input'],
+            'title' => $inputs['emailVote'],
             'linkUser' => $poll->getUserLink(),
             'linkAdmin' => $poll->getAdminLink(),
             'optionRate' => $optionRate,

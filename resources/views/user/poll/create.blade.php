@@ -19,7 +19,16 @@
                'role' => 'form',
            ])
         }}
-            <div id="create_poll_wizard" class="col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4 well wrap-poll">
+            @include('errors.errors')
+            @if (Session::has('messages'))
+                <div class="col-lg-12">
+                    <div class="col-lg-8 col-lg-offset-2 alert alert-success">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        {!! Session::get('messages') !!}
+                    </div>
+                </div>
+            @endif
+            <div id="create_poll_wizard" class="col-md-8 col-md-offset-2 col-lg-10 col-lg-offset-1 well wrap-poll">
                 <div class="navbar panel">
                     <div class="navbar-inner">
                         <div class="col-md-12 col-lg-10 col-lg-offset-1 panel-heading">
@@ -32,8 +41,6 @@
                         </div>
                     </div>
                 </div>
-                @include('layouts.error')
-                @include('layouts.message')
                 <div class="tab-content">
                     <div class="tab-pane" id="info">
                         @include('layouts.poll_info')

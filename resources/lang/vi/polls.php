@@ -340,4 +340,13 @@ return [
     'number_vote' => 'Số lượng bầu chọn',
     'email_voted' => 'Địa chỉ email này đã bầu chọn poll này rồi',
     'check' => 'Kiểm tra',
+    'statistic' => 'Thống kê',
+    'total_vote' => 'Tổng lượt bầu chọn',
+    'vote_first_time' => 'Thời gian bầu chọn đầu tiên',
+    'vote_last_time' => 'Thời gian bầu chọn cuối cùng',
+    'option_highest_vote' => 'Option có lượt bầu chọn cao nhất',
+    'option_lowest_vote' => 'Option có lượt bầu chọn thấp nhất',
+    'link_vote' => 'Link bầu chọn',
+    'message_required_email' => 'Vui lòng nhập địa chỉ emai để bầu chọn poll này',
+    'no_name' => 'Một người ẩn danh',
 ];

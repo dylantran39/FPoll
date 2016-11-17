@@ -225,3 +225,14 @@ li {
 .btn-right {
     float: right;
 }
+
+.footer {
+  margin-top: 10px;
+  background: black;
+  color: #9d9d9d;
+  padding: 10px;
+  z-index: 3;
+  width:100%;
+  position: fixed !important;
+  bottom: 0;
+}
